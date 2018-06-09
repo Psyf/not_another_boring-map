@@ -18,7 +18,7 @@ app.use(express.static('public'));
 app.use(bodyParser.json());  
 
 //setting up routes
-//app.use('/', routes); 
+app.use('/', routes); 
 
 //Start listening
 app.listen(process.env.port || 4000, function(){

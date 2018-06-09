@@ -22,16 +22,16 @@ const activitySchema = new mongoose.Schema({
 		type: String, 
 		required: [true, 'Category is required']
 	},
-	Organizer: {
+	organizer: {
 		type: String, 
 		required: [true, 'We need to know who the organizer is.']
 	},
-	Time: {
+	time: {
 		type: [Date, Date], //how to enforce formats? Start-End
-		required: [true, 'When is the activity held?']
+		required: [false, 'When is the activity held?']
 	},
-	Location: GeoSchema, 
-	People: {
+	location: GeoSchema, 
+	people: {
 		type: [Number, Number, Number]	//Going, Max, Target	
 	}
 }); 
