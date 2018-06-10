@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Act = require("../models/activity");
 const ejs = require("ejs");
+const path = require("path"); 
 
 //GETs
 router.get("/activity", function(req, res) {
@@ -11,9 +12,8 @@ router.get("/activity", function(req, res) {
 	//use Acts.geoNear to filter by distance
 });
 
-router.get("/", function(req, res) {
-	ejs.render("../views/map");
-	console.log("map sent");
+router.get("/map", function(req, res) {
+	res.render(path.resolve(__dirname + "/../views/map.ejs")); 
 });
 
 //POSTs
