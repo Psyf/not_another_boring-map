@@ -14,6 +14,7 @@ router.get("/activity", function(req, res) {
 
 router.get("/map", function(req, res) {
 	//doesnt work in heroku: res.render(path.resolve(__dirname + "/../views/map.ejs")); 
+	console.log(path.resolve(__dirname + "../views/map.html")); 
 	res.sendFile(path.resolve(__dirname + "/../views/map.html")); 
 });
 
