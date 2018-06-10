@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 
 //initializing app
 const app = express();
+const port = process.env.port || 4000; 
 
 //Connecting to MongoDB
 //mongoose.connect("mongodb://localhost/map");
@@ -23,6 +24,6 @@ app.use(bodyParser.json());
 app.use("/", routes);
 
 //Start listening
-app.listen(process.env.port || 4000, function() {
+app.listen(port, function() {
 	console.log("listening to clients");
 });
