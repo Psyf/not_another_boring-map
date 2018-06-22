@@ -15,7 +15,7 @@ const port = process.env.port || 4000;
 app.set("view engine", "ejs");
 
 //middleware optimization for static files
-app.use(express.static("public"));
+app.use("/public", express.static(__dirname + '/public'))
 
 //middleware for bodyParsing with json
 app.use(bodyParser.json());

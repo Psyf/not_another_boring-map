@@ -1,10 +1,83 @@
 <!DOCTYPE html>
 <html>
-	<body>
 
-		<h1>My First Heading</h1>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ShoutOut SG</title>
 
-		<p>My firt paagraph.</p>
+	<!--The custom-written styles. Please parse the referred file for the styles-->
+	<link href="/public/homepage_styles.css" type="text/css" rel="stylesheet"> 
 
-	</body>
+	<!-- Some additional meta tags for Search Engines -->
+	<!-- Feel free to add more as needed -->
+	<meta name="description" content="Open Event Finder for Singapore">
+	<meta name="keywords" content="open,event,finder,Singapore">
+	<meta name="author" content="Saif,Paras">
+</head>
+
+<body>
+	<header>
+		<h1 class="logo">
+			<a href="home.html" style="text-decoration: none; color: black;">
+				<span style="font-family: 'Rancho', cursive;">
+					ShoutOut 
+				</span>
+				<span style="font-family: 'Eater', cursive;">
+					&nbsp;SG!
+				</span>
+				<span style="font-family: 'Dancing Script', cursive;font-size: 1rem; position: relative; bottom: 2em"><br/>
+					Get invited. Stay connected.
+				</span>
+			</a>
+		</h1>
+
+		<input type="checkbox" id="nav-toggle" class="nav-toggle">
+
+		<nav>
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#">About Us</a></li>
+				<li><a href="#">Trending</a></li>
+				<li><a href="#">Guide</a></li>
+			</ul>
+		</nav>
+
+		<label for="nav-toggle" class="nav-toggle-label">
+			<span></span>
+		</label>
+
+		<!--No idea how to format the following div :( -->
+		<div class="search-button">
+			<input type="text" placeholder="Search for an event..." name="search" style="height: 1.5em;">
+			<button style=""></button>
+		</div>
+
+	</header>
+
+	<div style="background-color: rgba(250,250,250,0.2);" align="center">
+		<h2>
+			<span style="font-family: 'Rancho',cursive; font-size: 2.5rem; font-weight: normal;">Your one-stop directory to open events in Singapore!</span>
+		</h2>
+	</div>
+
+	<!-- This is supposed to be the signup button, trying to figure this out too :/ -->
+	<div class="search-button">
+		<input type="submit" name="Sign-Up" class="button">
+	</div>
+
+	<!-- The following are tested. These were correctly displayed, so this serves as a sanity-check...
+	<p>This is a <span style="font-family: 'Rancho', cursive; color: red">test of what I can do using HTML and CSS.<br></span><span style="font-family: 'Eater',cursive;">Do you see?</span>
+	</p>
+	<div>
+		<br>
+		<br>
+		<br>
+		<span style="background: yellow;">Hello!</span>
+		<br>
+		<br>
+		<br>
+	</div>
+-->
+</body>
 </html>

@@ -5,6 +5,12 @@ const ejs = require("ejs");
 const path = require("path"); 
 
 //GETs
+router.get("/", function(req, res) {
+	//doesnt work in heroku: res.render(path.resolve(__dirname + "/../views/map.ejs")); 
+	//res.sendFile(path.resolve(__dirname + "/../views/map.html")); 
+	res.render(path.resolve(__dirname + "/../views/home.ejs")); 
+});
+
 router.get("/activity", function(req, res) {
 	Act.find({}).then(function() {
 		res.status(200).send(acts);
@@ -14,7 +20,7 @@ router.get("/activity", function(req, res) {
 
 router.get("/map", function(req, res) {
 	//doesnt work in heroku: res.render(path.resolve(__dirname + "/../views/map.ejs")); 
-	console.log(path.resolve(__dirname + "../views/map.html")); 
+	console.log(path.resolve(__dirname + "/../views/map.html")); 
 	res.sendFile(path.resolve(__dirname + "/../views/map.html")); 
 });
 
