@@ -60,6 +60,7 @@
 			<span style="font-family: 'Rancho',cursive; font-size: 2.5rem; font-weight: normal;">Your one-stop directory to open events in Singapore!</span>
 		</h2>
 	</div>
+	<div id="map" style="width:100%;height:500px;background:yellow"></div>
 
 	<!-- This is supposed to be the signup button, trying to figure this out too :/ -->
 	<div class="search-button">
@@ -79,5 +80,19 @@
 		<br>
 	</div>
 -->
+
+<script>
+function initMap() {
+var mapOptions = {
+    center: new google.maps.LatLng(1.290270, 103.851959),
+    zoom: 10,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+}
+var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpUAQ_vp-UHzUYyTCgsF04IUTjulyRLS0&callback=initMap"></script>
+
 </body>
 </html>

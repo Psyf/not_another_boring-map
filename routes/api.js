@@ -18,12 +18,6 @@ router.get("/activity", function(req, res) {
 	//use Acts.geoNear to filter by distance
 });
 
-router.get("/map", function(req, res) {
-	//doesnt work in heroku: res.render(path.resolve(__dirname + "/../views/map.ejs")); 
-	console.log(path.resolve(__dirname + "/../views/map.html")); 
-	res.sendFile(path.resolve(__dirname + "/../views/map.html")); 
-});
-
 //POSTs
 router.post("/activity", function(req, res) {
 	Act.create(req.body).then(function(act) {
