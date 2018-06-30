@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <link rel="stylesheet" type="text/css" href="../public/chat.css"/>
+  </head>
+  
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>    
+  $(function () {
+    var socket = io();
+    $('form').submit(function(){
+      socket.emit('chat message', $('#m').val());
+      $('#m').val('');
+      return false;
+    });
+    let room = <%- JSON.stringify(room) %>;
+    socket.on('connect', function(){
+      socket.emit('room', room); 
+    });
+
+    //online packet is sent everytime someone dis/connects
+    //TODO: make it more efficient
+    socket.on('online', function(res){
+      $('#online').html("<b>Online</b><br>" + String(res.people));
+    }); 
+
+    //chat history is sent if someone new joins the chatRoom
+    socket.on('history', function(docs){ 
+      docs.history.forEach(function(msg){
+        $('#timeStamp').append($('<li>').text("[" + msg.time + "] "));
+        $('#messages').append($('<li>').html("<b>" + msg.nick + "</b>" + ": " + msg.text));
+      });
+    }); 
+
+    //messages are send and displayed on the top left
+    socket.on('chat message', function(msg){
+      $('#timeStamp').append($('<li>').text("[" + msg.time + "] "));
+      $('#messages').append($('<li>').html("<b>" + msg.nick + "</b>" + ": " + msg.text));
+    });
+
+    //notifications are sent and listed on the top right
+    socket.on('notif', function(msg){
+      if (msg.type === "connect")
+        $('#notifs').append($('<li>').text(msg.nick + " connected to " + msg.room));
+      else if (msg.type === "disconnect") 
+        $('#notifs').append($('<li>').text(msg.nick + " disconnected from " + msg.room));
+    });
+  });
+</script>
+    
+  <body>
+    <ul id="timeStamp"></ul>
+    <ul id="messages"></ul>
+    <ul id="notifs"></ul>
+    <div id="online"></div>
+    <form action="">
+      <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ShoutOut SG</title>
+
+	<!--The custom-written styles. Please parse the referred file for the styles-->
+	<link href="/public/homepage_styles.css" type="text/css" rel="stylesheet"> 
+
+	<!-- Some additional meta tags for Search Engines -->
+	<!-- Feel free to add more as needed -->
+	<meta name="description" content="Open Event Finder for Singapore">
+	<meta name="keywords" content="open,event,finder,Singapore">
+	<meta name="author" content="Saif,Paras">
+</head>
+
+<body>
+	<header>
+		<h1 class="logo">
+			<a href="home.html" style="text-decoration: none; color: black;">
+				<span style="font-family: 'Rancho', cursive;">
+					ShoutOut 
+				</span>
+				<span style="font-family: 'Eater', cursive;">
+					&nbsp;SG!
+				</span>
+				<span style="font-family: 'Dancing Script', cursive;font-size: 1rem; position: relative; bottom: 2em"><br/>
+					Get invited. Stay connected.
+				</span>
+			</a>
+		</h1>
+
+		<input type="checkbox" id="nav-toggle" class="nav-toggle">
+
+	
+		<label for="nav-toggle" class="nav-toggle-label">
+			<span></span>
+		</label>
+
+		<!--No idea how to format the following div :( -->
+		<div class="search-button">
+			<input type="text" placeholder="Search for an event..." name="search" style="height: 1.5em;">
+			<button style=""></button>
+		</div>
+
+	</header>
+
+	<div id="mySidenav" class="sidenav">
+	  <a href="#" id="about">About</a>
+	  <a href="#" id="blog">Blog</a>
+	  <a href="#" id="projects">Projects</a>
+	  <a href="#" id="contact">Contact</a>
+	</div>
+	
+	<div id="map" style="width:100%;height:500px;background:yellow"></div>
+	
+	<!-- The following are tested. These were correctly displayed, so this serves as a sanity-check...
+	<p>This is a <span style="font-family: 'Rancho', cursive; color: red">test of what I can do using HTML and CSS.<br></span><span style="font-family: 'Eater',cursive;">Do you see?</span>
+	</p>
+	<div>
+		<br>
+		<br>
+		<br>
+		<span style="background: yellow;">Hello!</span>
+		<br>
+		<br>
+		<br>
+	</div> -->
+
+<script>
+	function initMap() {
+		var mapOptions = {
+		    center: new google.maps.LatLng(1.290270, 103.851959),
+		    zoom: 10,
+		    mapTypeId: google.maps.MapTypeId.ROADMAP
+		}
+
+		var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+		
+		//adding markers on the map
+		var activities = <%- JSON.stringify(activities) %>
+		var marker;
+		var infowindow = new google.maps.InfoWindow(); 
+		
+		activities.forEach(function(activity) {
+			marker = new google.maps.Marker({
+				position: new google.maps.LatLng(activity.location[0], activity.location[1]),
+				map: map, 
+				title: activity.activityName
+			});
+
+			var content = activity.activityName; 
+
+        	var infowindow = new google.maps.InfoWindow();
+			google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+    			return function() {
+        			infowindow.setContent(content);
+        			infowindow.open(map,marker);
+    			};
+			})(marker,content,infowindow)); 
+		}); 
+	} 
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpUAQ_vp-UHzUYyTCgsF04IUTjulyRLS0&callback=initMap"></script>
+
+</body>
+</html>
