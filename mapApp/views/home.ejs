@@ -34,7 +34,7 @@
 
 		<input type="checkbox" id="nav-toggle" class="nav-toggle">
 
-	
+
 		<label for="nav-toggle" class="nav-toggle-label">
 			<span></span>
 		</label>
@@ -48,13 +48,12 @@
 	</header>
 
 	<div id="mySidenav" class="sidenav">
-	  <a href="#" id="about">About</a>
-	  <a href="#" id="blog">Blog</a>
-	  <a href="#" id="projects">Projects</a>
-	  <a href="#" id="contact">Contact</a>
+		<a href="#" id="about">About</a>
+		<a href="#" id="blog">Blog</a>
+		<a href="#" id="projects">Projects</a>
+		<a href="#" id="contact">Contact</a>
 	</div>
-	
-	<div id="map" style="width:100%;height:500px;background:yellow"></div>
+	<div id="map" class="map"></div>
 	
 	<!-- The following are tested. These were correctly displayed, so this serves as a sanity-check...
 	<p>This is a <span style="font-family: 'Rancho', cursive; color: red">test of what I can do using HTML and CSS.<br></span><span style="font-family: 'Eater',cursive;">Do you see?</span>
@@ -69,16 +68,16 @@
 		<br>
 	</div> -->
 
-<script>
-	function initMap() {
-		var mapOptions = {
-		    center: new google.maps.LatLng(1.290270, 103.851959),
-		    zoom: 10,
-		    mapTypeId: google.maps.MapTypeId.ROADMAP
-		}
+	<script>
+		function initMap() {
+			var mapOptions = {
+				center: new google.maps.LatLng(1.290270, 103.851959),
+				zoom: 10,
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			}
 
-		var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-		
+			var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
 		//adding markers on the map
 		var activities = <%- JSON.stringify(activities) %>
 		var marker;
@@ -93,12 +92,12 @@
 
 			var content = activity.activityName; 
 
-        	var infowindow = new google.maps.InfoWindow();
+			var infowindow = new google.maps.InfoWindow();
 			google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
-    			return function() {
-        			infowindow.setContent(content);
-        			infowindow.open(map,marker);
-    			};
+				return function() {
+					infowindow.setContent(content);
+					infowindow.open(map,marker);
+				};
 			})(marker,content,infowindow)); 
 		}); 
 	} 

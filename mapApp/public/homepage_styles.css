@@ -19,6 +19,7 @@ html {
 	height: 100%;
 	font-size: 100%;
 	width: 100%; 
+	overflow-x: hidden;
 }
 
 body {
@@ -127,6 +128,13 @@ nav ul li:hover {
 .search-button {
 	padding-left: 35%
 }
+
+.map {
+	z-index: 1;
+	width:100%;
+	height:75%;
+	background:yellow;
+}
 /* For larger screens */
 
 @media screen and (min-width: 800px) {
@@ -171,53 +179,53 @@ nav ul li:hover {
 		top: 1em;
 	}
 
-	.search-button {
+	.map {
+		z-index: 1;
+		width:100%;
+		height:85%;
+		background:yellow;
 	}
-}
-
-.map {
-	z-index: 1; 
 }
 
 .sidenav {
 	position: absolute;
 	top: 40%;
-    right: 80px;
-    font-family: 'Tajawal', sans-serif;
-    z-index: 999;
+	right: 80px;
+	font-family: 'Tajawal', sans-serif;
+	z-index: 999;
 }
 
 #mySidenav a {
-    position: absolute;
-    transition: 0.3s;
-    padding: 15px;
-    width: 100px;
-    text-decoration: none;
-    font-size: 20px;
-    color: white;
-    border-radius: 0 5px 5px 0;
+	position: absolute;
+	transition: 0.3s;
+	padding: 15px;
+	width: 100px;
+	text-decoration: none;
+	font-size: 20px;
+	color: white;
+	border-radius: 0 5px 5px 0;
 }
 
 #mySidenav a:hover {
-    right: -80px;
+	right: -80px;
 }
 
 #about {
-    top: 20px;
-    background-color: #4CAF50;
+	top: 20px;
+	background-color: #4CAF50;
 }
 
 #blog {
-    top: 80px;
-    background-color: #2196F3;
+	top: 80px;
+	background-color: #2196F3;
 }
 
 #projects {
-    top: 140px;
-    background-color: #f44336;
+	top: 140px;
+	background-color: #f44336;
 }
 
 #contact {
-    top: 200px;
-    background-color: #555
+	top: 200px;
+	background-color: #555
 }
