@@ -7,16 +7,52 @@
 
 body {
 	background: linear-gradient(#94E2DB,#C0FFB9);
+	overflow-y: hidden;
 }
 
+.online-window {
+	width: 30%;
+	min-height: 50%;
+	height: auto;
+	max-width: 30%;
+	max-height: 80%;
+	overflow-y: scroll;
+	background: rgba(1,1,1,0.6);
+	outline-style: solid;
+	outline-color: red;
+	position: fixed;
+	top: 0;
+	padding: 5px;
+	margin-left: 70%;
+	margin-top: 10%;
+	color: green;
+}
+
+.online-window::after {
+	position: inline;
+}
+
+/*
+.chatbox {
+	width: 500px auto;
+	min-width: 100%
+	height: 800px auto;
+	background-image: url(http://www.alexandermanton.com/wp-content/uploads/2016/08/Singapore-Skyline-4.jpg);
+	padding: 20px;
+	margin: 0 auto;
+	box-shadow: 0 3px #CCC;
+	color: green;
+}
+*/
 .chatbox {
 	width: 500px auto;
 	min-width: 390px;
-	height: 600px;
-	background: #FDB;
+	height: 100%;
+	background-image: url(https://static1.squarespace.com/static/52da9677e4b03d314575985a/t/568a5e56dc5cb434c56c18ae/1451908696505/Best+Hotels+in+Singapore+with+a+View.jpg?format=1500w);
 	padding: 25px;
 	margin: 20px auto;
 	box-shadow: 0 3px #CCC;
+	color: white;
 }
 
 .timestamp {

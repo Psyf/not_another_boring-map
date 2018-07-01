@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Socket.IO chat</title>
-  <link rel="stylesheet" type="text/css" href="../public/newchat.css"/>
+  <link rel="stylesheet" type="text/css" href="../public/chat.css"/>
   <link rel="stylesheet" type="text/css" href="../public/homepage_styles.css">
 </head>
 
@@ -85,18 +85,24 @@
   </header>
   <div class="chatbox">
     <div class="chatlogs">
-      <table align="center">
+      <table align="center" style="background: rgba(1,1,1,0.6);">
+        <div class="online-window">
+          <p style="font-weight: bold; font-size: 1.2rem; border-bottom: 1px solid green" align="center">Chat Info</p>
+          <br>
+          <p style="font-weight: bold; font-size: 1rem;" align="left">Notifications</p>
+          <ul id="notifs" style="list-style-type: none;"></ul>
+          <br>
+          <div id="online"></div>
+        </div>
         <tr>
           <td><ul id="timeStamp" style="list-style-type: none;"></ul></td>
           <td><ul id="messages" style="list-style-type: none;"></ul></td>
         </tr>
       </table>
-      <ul id="notifs"></ul>
-      <div id="online"></div>
-      <form action="">
+    </div>
+    <form action="" style="margin-left:15%;">
         <input id="m" autocomplete="off" /><button>Send</button>
       </form>
-    </div>
   </div>
   
 </body>
