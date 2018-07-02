@@ -10,8 +10,12 @@
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>    
   $(function () {
+    var message_box = document.getElementById('chatlogs');
+    var scroll_check = document.getElementById('scrollchecker');
+    var self_send = false;
     var socket = io();
     $('form').submit(function(){
+      self_send = true;
       socket.emit('chat message', $('#m').val());
       $('#m').val('');
       return false;
@@ -36,9 +40,12 @@
     }); 
 
     //messages are send and displayed on the top left
-    socket.on('chat message', function(msg){
+    socket.on('chat message', function(msg) {
       $('#timeStamp').append($('<li>').text("[" + msg.time + "] "));
       $('#messages').append($('<li>').html("<b>" + msg.nick + "</b>" + ": " + msg.text));
+      if (scroll_check.checked || self_send) {
+        message_box.scrollTop = message_box.scrollHeight;
+      }
     });
 
     //notifications are sent and listed on the top right
@@ -84,7 +91,7 @@
     </label>
   </header>
   <div class="chatbox">
-    <div class="chatlogs">
+    <div class="chatlogs" id="chatlogs">
       <table align="center" style="background: rgba(1,1,1,0.6);">
         <div class="online-window">
           <p style="font-weight: bold; font-size: 1.2rem; border-bottom: 1px solid green" align="center">Chat Info</p>
@@ -100,9 +107,10 @@
         </tr>
       </table>
     </div>
-    <form action="" style="margin-left:15%;">
-        <input id="m" autocomplete="off" /><button>Send</button>
-      </form>
+    <input type="checkbox" checked="checked" value="Auto-scroll" id="scrollchecker"><span style="font-family: 'Tajawal', sans-serif; font-size: 1rem; font-style: italic;">Auto-scroll
+    <form action="" style="margin-left:10%; display: inline;">
+      <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
   </div>
   
 </body>
