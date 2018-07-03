@@ -46,7 +46,9 @@ router.post("/activity/new", function(req, res) {
 		contact: formData.contact, 
 		email: formData.email, 
 		time: [formData.startTime, formData.endTime], 
-		location: [formData.lat, formData.lng]
+		location: [formData.lat, formData.lng], 
+		description: formData.description, 
+		deleted: false
 	}
 	Act.create(entry).then(function(act) {
 		res.status(200).send(act); //give us back the act if it has been created
