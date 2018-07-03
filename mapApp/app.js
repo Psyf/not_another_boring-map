@@ -18,7 +18,8 @@ app.set("view engine", "ejs");
 app.use("/public", express.static(__dirname + '/public'))
 
 //middleware for bodyParsing with json
-app.use(bodyParser.json());
+app.use(bodyParser.json({extended: true}));
+app.use(bodyParser.urlencoded({extended: true})); 
 
 //setting up routes
 app.use("/", routes);

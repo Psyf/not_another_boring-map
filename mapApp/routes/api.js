@@ -19,22 +19,44 @@ router.get("/activity", function(req, res) {
 	//use Acts.geoNear to filter by distance
 });
 
+router.get("/activity", function(req, res) {
+	Act.find({}).then(function() {
+		res.status(200).send(acts);
+	});
+	//use Acts.geoNear to filter by distance
+});
+
 router.get("/activity/:activityName/chat", function(req, res) {
 	console.log(req.params.activityName); 
 	res.redirect('http://localhost:5000/'+ req.params.activityName); 
-	//res.redirect('http://localhost:5000/'); 
 });
+
+router.get("/activity/new", function(req, res) {
+	res.sendFile(path.resolve(__dirname + "/../views/new_activity.html")); 
+});
+
 
 //POSTs
-router.post("/activity", function(req, res) {
-	Act.create(req.body).then(function(act) {
+router.post("/activity/new", function(req, res) {
+	var formData = JSON.parse(JSON.stringify(req.body)); 
+	var entry = {
+		activityName: formData.activityName, 
+		category: formData.category, 
+		organizer: formData.orgName, 
+		contact: formData.contact, 
+		email: formData.email, 
+		time: [formData.startTime, formData.endTime], 
+		location: [formData.lat, formData.lng]
+	}
+	Act.create(entry).then(function(act) {
 		res.status(200).send(act); //give us back the act if it has been created
-	});
-});
+	}); 
+	//res.redirect('http://localhost:4000'); 	//TO DO : redirect to activity page  
+}); 
 
 //PUTs
-router.put("/activity/:id", function(req, res) {
-	Act.findByIdAndUpdate({ _id: req.params.id }, req.body, { new: true }).then(
+router.put("/activity/edit/:password", function(req, res) {
+	Act.find({ password: req.params.password }, req.body, { new: true }).then(
 		function(act) {
 			res.send(act);
 		}
@@ -42,9 +64,10 @@ router.put("/activity/:id", function(req, res) {
 });
 
 //DELETEs
-router.delete("/activity/:id", function(req, res) {
-	Act.findByIdAndDelete({ _id: req.params.id }).then(function(act) {
+router.delete("/activity/delete/:password", function(req, res) {
+	Act.find({ password: req.params.password }).then(function(act) {
 		res.send(act); //decide on a status code to send and distinguish from PUT
+		//create a deleted attribute and set it to true for mapApp and chatApp
 	});
 });
 
