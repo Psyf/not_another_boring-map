@@ -117,8 +117,12 @@
             '</div>'+
             '<h1 id="firstHeading" class="firstHeading" style="">'+activity.activityName+'</h1>'+
             '<div id="bodyContent"  style="font-style: italic;">'+
-            '<p>Timing:&nbsp<span style="font-style: normal;">' + '<!--INSERT TIME -->' + '</span></p>'
-            +'<p>Activity page:&nbsp<span style="font-style: normal;">' + '<!--LINK TO ACTIVITY PAGE-->' + '</span></p>';
+            '<p>Organiser:&nbsp<span style="font-style: normal;">' + activity.organiser + '</span></p>'
+            '<p>Category:&nbsp<span style="font-style: normal;">' + activity.category + '</span></p>' +
+            '<p>Timing:&nbsp<span style="font-style: normal;">' + activity.time + '</span></p>' +
+            '<p>Location:&nbsp<span style="font-style: normal;">' + activity.location + '</span></p>' + 
+            //TO COMPLETE THE HYPERLINK TO CHATPAGE
+            '<p>Chatlink:&nbsp<span style="font-style:normal;"><a href="#">Click&nbsp<b>here</b></span></p>' + 
             '</div>'+
             '</div>';
 
