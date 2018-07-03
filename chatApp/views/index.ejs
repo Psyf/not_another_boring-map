@@ -9,6 +9,8 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
+
+    /*
       //cookie stuff...
     function setCookie(cname, cvalue, exdays) {
       var d = new Date();
@@ -45,6 +47,7 @@
       }
     }
     checkCookie();
+    */
 
     // So this sets the cookie. Pls send to server.js below:
     
@@ -61,8 +64,9 @@
     //1. when the API hits this page, it does so with a var room. 
     //this socket "connect" event emits a "room" event to sever (now see server)
     let room = <%- JSON.stringify(room) %>;
+    var username = prompt("Please enter a chat name:", "Anonymous");
     socket.on('connect', function(){
-      socket.emit('room', room); 
+      socket.emit('room', {room: room, userID: username}); 
     });
 
     //3 followup: notifications are received and listed

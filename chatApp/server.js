@@ -25,15 +25,16 @@ io.on("connection", function(socket) {
 	let roomName = "";
 
 	//TO DO: change to userIssued ID
-	const userId = String(socket.id).slice(0, 4);
+	var userId = String(socket.id).slice(0, 4);
 
 	//3. the room event emits the "notif" event to everyone in the room
 	//it also searches the db to see if preexisting messages in this room can be loaded 
 	//"online" and "history" events are emitted to rooms (go back to index.ejs)
-	socket.on("room", function(room) {
-		roomName += room;
-		socket.join(room);
-		io.to(room).emit("notif", {
+	socket.on("room", function(msg) {
+		roomName += msg.room;
+		socket.join(msg.room);
+		userId = msg.userID; 
+		io.to(roomName).emit("notif", {
 			nick: userId,
 			type: "connect",
 			room: roomName

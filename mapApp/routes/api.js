@@ -39,6 +39,12 @@ router.get("/activity/new", function(req, res) {
 //POSTs
 router.post("/activity/new", function(req, res) {
 	var formData = JSON.parse(JSON.stringify(req.body)); 
+	
+	//randomly generated password
+	let password = Math.random()
+		.toString(36)
+		.substring(10);
+	
 	var entry = {
 		activityName: formData.activityName, 
 		category: formData.category, 
@@ -48,16 +54,18 @@ router.post("/activity/new", function(req, res) {
 		time: [formData.startTime, formData.endTime], 
 		location: [formData.lat, formData.lng], 
 		description: formData.description, 
+		password: password, 
 		deleted: false
 	}
+
 	Act.create(entry).then(function(act) {
-		res.status(200).send(act); //give us back the act if it has been created
-	}); 
+		res.status(200).send("You will need this password to edit/delete the activity later: " + password);
+	});
 	//res.redirect('http://localhost:4000'); 	//TO DO : redirect to activity page  
 }); 
 
-//PUTs
-router.put("/activity/edit/:password", function(req, res) {
+//ideally would use PUTs
+router.get("/activity/edit/:password", function(req, res) {
 	Act.find({ password: req.params.password }, req.body, { new: true }).then(
 		function(act) {
 			res.send(act);
@@ -65,8 +73,8 @@ router.put("/activity/edit/:password", function(req, res) {
 	);
 });
 
-//DELETEs
-router.delete("/activity/delete/:password", function(req, res) {
+//ideally would use DELETEs
+router.get("/activity/delete/:password", function(req, res) {
 	Act.find({ password: req.params.password }).then(function(act) {
 		res.send(act); //decide on a status code to send and distinguish from PUT
 		//create a deleted attribute and set it to true for mapApp and chatApp
