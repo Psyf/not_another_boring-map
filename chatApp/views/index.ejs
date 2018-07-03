@@ -8,12 +8,56 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+      //cookie stuff...
+    function setCookie(cname, cvalue, exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + (exdays*24*60*60*1000));
+      var expires = "expires="+ d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function getCookie(cname) {
+      var name = cname + "=";
+      var decodedCookie = decodeURIComponent(document.cookie);
+      var ca = decodedCookie.split(';');
+      for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    function checkCookie() {
+      var username = getCookie("username");
+      if (username != "") {
+        alert("Welcome again " + username);
+      } else {
+        username = prompt("Please enter a chat name:", "Anonymous");
+        if (username != "" && username != null) {
+          setCookie("username", username, 365);
+        }
+      }
+    }
+    checkCookie();
+
+    // So this sets the cookie. Pls send to server.js below:
+    
+</script>
 <script>    
   $(function () {
+    //auto-scroll variables...
     var message_box = document.getElementById('chatlogs');
     var scroll_check = document.getElementById('scrollchecker');
     var self_send = false;
+
     var socket = io();
+
     $('form').submit(function(){
       self_send = true;
       socket.emit('chat message', $('#m').val());
@@ -45,6 +89,7 @@
       $('#messages').append($('<li>').html("<b>" + msg.nick + "</b>" + ": " + msg.text));
       if (scroll_check.checked || self_send) {
         message_box.scrollTop = message_box.scrollHeight;
+        self_send = false;
       }
     });
 
@@ -108,10 +153,10 @@
       </table>
     </div>
     <input type="checkbox" checked="checked" value="Auto-scroll" id="scrollchecker"><span style="font-family: 'Tajawal', sans-serif; font-size: 1rem; font-style: italic;">Auto-scroll
-    <form action="" style="margin-left:10%; display: inline;">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
-  </div>
-  
-</body>
-</html>
+      <form action="" style="margin-left:10%; display: inline;">
+        <input id="m" autocomplete="off" /><button>Send</button>
+      </form>
+    </div>
+
+  </body>
+  </html>
