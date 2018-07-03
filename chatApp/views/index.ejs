@@ -57,25 +57,28 @@
     var self_send = false;
 
     var socket = io();
-
-    $('form').submit(function(){
-      self_send = true;
-      socket.emit('chat message', $('#m').val());
-      $('#m').val('');
-      return false;
-    });
+    
+    //1. when the API hits this page, it does so with a var room. 
+    //this socket "connect" event emits a "room" event to sever (now see server)
     let room = <%- JSON.stringify(room) %>;
     socket.on('connect', function(){
       socket.emit('room', room); 
     });
 
+    //3 followup: notifications are received and listed
+    socket.on('notif', function(msg){
+      if (msg.type === "connect")
+        $('#notifs').append($('<li>').text(msg.nick + " connected to " + msg.room));
+      else if (msg.type === "disconnect") 
+        $('#notifs').append($('<li>').text(msg.nick + " disconnected from " + msg.room));
+    });
+
+    //3 followup: "online" and "history" events are used to adjust view
     //online packet is sent everytime someone dis/connects
-    //TODO: make it more efficient
     socket.on('online', function(res){
       $('#online').html("<b>Online</b><br>" + String(res.people));
     }); 
-
-    //chat history is sent if someone new joins the chatRoom
+    //chat history is sent
     socket.on('history', function(docs){ 
       docs.history.forEach(function(msg){
         $('#timeStamp').append($('<li>').text("[" + msg.time + "] "));
@@ -83,7 +86,15 @@
       });
     }); 
 
-    //messages are send and displayed on the top left
+    //4. Whenever someone hits send, a "chat message" event is send to the server (go to server)
+    $('form').submit(function(){
+      self_send = true;
+      socket.emit('chat message', $('#m').val());
+      $('#m').val('');
+      return false;
+    });
+
+    //5. messages are received by "chat message" and displayed
     socket.on('chat message', function(msg) {
       $('#timeStamp').append($('<li>').text("[" + msg.time + "] "));
       $('#messages').append($('<li>').html("<b>" + msg.nick + "</b>" + ": " + msg.text));
@@ -91,14 +102,6 @@
         message_box.scrollTop = message_box.scrollHeight;
         self_send = false;
       }
-    });
-
-    //notifications are sent and listed on the top right
-    socket.on('notif', function(msg){
-      if (msg.type === "connect")
-        $('#notifs').append($('<li>').text(msg.nick + " connected to " + msg.room));
-      else if (msg.type === "disconnect") 
-        $('#notifs').append($('<li>').text(msg.nick + " disconnected from " + msg.room));
     });
   });
 </script>

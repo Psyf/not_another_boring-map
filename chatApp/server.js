@@ -20,9 +20,16 @@ const server = app.listen(process.env.port || 5000, function() {
 
 const io = require("socket.io").listen(server);
 
+//2. this "connection" even is hit everytime someone connects to the server
 io.on("connection", function(socket) {
 	let roomName = "";
+
+	//TO DO: change to userIssued ID
 	const userId = String(socket.id).slice(0, 4);
+
+	//3. the room event emits the "notif" event to everyone in the room
+	//it also searches the db to see if preexisting messages in this room can be loaded 
+	//"online" and "history" events are emitted to rooms (go back to index.ejs)
 	socket.on("room", function(room) {
 		roomName += room;
 		socket.join(room);
@@ -49,6 +56,7 @@ io.on("connection", function(socket) {
 		);
 	});
 
+	//4 followup: Whenever server gets a chat message, it lets everyone in room know by reemitting the same message (go to index.ejs #5)
 	//handle the chat message event
 	socket.on("chat message", function(msg) {
 		io.to(roomName).emit("chat message", {
