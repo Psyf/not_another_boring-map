@@ -34,6 +34,10 @@ const activitySchema = new mongoose.Schema({
 	description: {
 		type: String
 	},
+	password: {
+		type: String, 
+		required: true
+	},
 	deleted: {
 		type: Boolean
 	}

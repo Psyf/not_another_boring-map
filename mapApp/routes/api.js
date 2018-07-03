@@ -6,21 +6,21 @@ const path = require("path");
 
 //GETs
 router.get("/", function(req, res) { 
-	Act.find({category: "public"}, function(err, acts) {
+	Act.find({category: "public", deleted: false}, function(err, acts) {
 		console.log(acts);
 		res.render(path.resolve(__dirname + "/../views/home.ejs"), {activities: acts}); 
 	}); 
 });
 
 router.get("/activity", function(req, res) {
-	Act.find({}).then(function() {
+	Act.find({}, function(err, acts) {
 		res.status(200).send(acts);
 	});
 	//use Acts.geoNear to filter by distance
 });
 
 router.get("/activity", function(req, res) {
-	Act.find({}).then(function() {
+	Act.find({}).then(function(acts) {
 		res.status(200).send(acts);
 	});
 	//use Acts.geoNear to filter by distance
@@ -65,8 +65,8 @@ router.post("/activity/new", function(req, res) {
 }); 
 
 //ideally would use PUTs
-router.get("/activity/edit/:password", function(req, res) {
-	Act.find({ password: req.params.password }, req.body, { new: true }).then(
+router.get("/activity/edit/:id", function(req, res) {
+	Act.findByIdAndUpdate({_id: req.params.id}, req.body, { new: true }).then(
 		function(act) {
 			res.send(act);
 		}
@@ -74,11 +74,28 @@ router.get("/activity/edit/:password", function(req, res) {
 });
 
 //ideally would use DELETEs
-router.get("/activity/delete/:password", function(req, res) {
-	Act.find({ password: req.params.password }).then(function(act) {
-		res.send(act); //decide on a status code to send and distinguish from PUT
-		//create a deleted attribute and set it to true for mapApp and chatApp
-	});
+//delete_req
+router.get("/activity/delete/:id", function(req, res) {
+	res.sendFile(path.resolve(__dirname + "/../views/delete_req.html"));
 });
 
+router.get("/activity/delete/:id/:password", function(req, res) {
+	Act.findById({_id: req.params.id}).then(function(act) {
+		if (act.password == req.params.password) 
+		{
+			Act.findByIdAndUpdate(req.params.id, {deleted: true}, function(err, act) {
+				if (!err) {
+					res.sendFile(path.resolve(__dirname + "/../views/delete_success.html"));
+				}
+				else {
+					res.send(err); 
+				}
+			}); 
+		}
+		else 
+		{
+			res.sendFile(path.resolve(__dirname + "/../views/delete_fail.html"));
+		}
+	});
+}); 
 module.exports = router;
