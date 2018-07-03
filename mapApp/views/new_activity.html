@@ -10,7 +10,7 @@
 
 	<header>
 		<h1 class="logo">
-			<a href="home.html" style="text-decoration: none; color: black;">
+			<a href="../" style="text-decoration: none; color: black;">
 				<span style="font-family: 'Rancho', cursive;">
 					ShoutOut 
 				</span>
@@ -28,7 +28,7 @@
 		<nav>
 			<ul>
 				<li><a href="#">Home</a></li>
-				<li><a href="#">About Us</a></li>
+				<li><a href="/activity/new">Add Activity</a></li>
 				<li><a href="#">Trending</a></li>
 				<li><a href="#">Guide</a></li>
 			</ul>
@@ -39,7 +39,7 @@
 		</label>
 	</header>
 
-	<div class="container">
+	<form class="container" method="post" id="form">
 		<div class="panel panel-primary">
 			<div class="panel-heading">Please fill the following fields to add your activity</div>
 			<div class="panel-body">
@@ -48,13 +48,13 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label class="control-label">Name of activity</label>
-							<input type="text" class="form-control" name="fname" id="fname">
+							<input type="text" class="form-control" name="activityName" id="activityName" required="true">
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label class="control-label">Name of organiser</label>
-							<input type="text" class="form-control" name="lname" id="lname">
+							<input type="text" class="form-control" name="orgName" id="orgName" required="true">
 						</div>
 					</div>
 				</div>
@@ -62,14 +62,14 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label class="control-label">Email address of organiser</label>
-							<input type="text" class="form-control" name="email" id="email">
+							<label class="control-label">Email address</label>
+							<input type="text" class="form-control" name="email" id="email" required="true">
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label class="control-label">(Optional) Contact number</label>
-							<input type="text" class="form-control" name="email" id="email">
+							<label class="control-label">Contact number</label>
+							<input type="text" class="form-control" name="contact" id="contact">
 						</div>
 					</div>
 				</div>
@@ -79,7 +79,7 @@
 						<div class="form-group">
 							<label class="control-label">Start Time</label>
 							<div class='input-group date' id='datetimepicker1'>
-								<input type='text' class="form-control" />
+								<input type='text' class="form-control" name="startTime" id="startTime">
 								<span class="input-group-addon">
 									<span class="glyphicon glyphicon-calendar"></span>
 								</span>
@@ -90,7 +90,7 @@
 						<div class="form-group">
 							<label class="control-label">End Time</label>
 							<div class='input-group date' id='datetimepicker2'>
-								<input type='text' class="form-control" />
+								<input type='text' class="form-control" name="endTime" id="endTime">
 								<span class="input-group-addon">
 									<span class="glyphicon glyphicon-calendar"></span>
 								</span>
@@ -103,20 +103,38 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label class="control-label">Activity address</label>
-							<input type="text" class="form-control" name="email" id="email">
+							<input type="text" class="form-control" name="address" id="address">
+							//novalidate is a bug
+							<input type="number" step=any class="form-control" name="lat" id="lat" style="display:none" novalidate>
+							<input type="number" step=any class="form-control" name="lng" id="lng" style="display:none" novalidate>
 						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label class="control-label">(Optional)Activity description</label>
-								<input type="text" class="form-control" name="email" id="email">
-							</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Activity description</label>
+							<input type="text" class="form-control" name="description" id="description">
 						</div>
 					</div>
 				</div>
-				<input type="submit" class="btn btn-primary" value="Submit">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<fieldset>
+								<label class="control-label">Event Privacy: </label>
+        						<input type="radio" id="public" name="category" value="public" checked/>
+								<label class="public">Public</label>
+        						<input type="radio" id="private" name="category" value="private"/>
+        						<label class="private">Private</label>
+						    </fieldset>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<input type="submit" class="btn btn-primary" value="Create">
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
+	</form>
 
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -129,5 +147,47 @@
 			$('#datetimepicker2').datetimepicker();
 		});
 	</script>
+	
+	<script>
+      var placeSearch, autocomplete;
+
+      function initAutocomplete() {
+        autocomplete = new google.maps.places.Autocomplete((document.getElementById('address')),
+            {types: ['geocode']});
+        // When the user selects an address from the dropdown, populate latitude, longitude
+        autocomplete.addListener('place_changed', fillInLatLng);
+      }
+
+      function fillInLatLng() {
+        var place = autocomplete.getPlace();
+		var form = document.getElementById('form');
+		form['lat'].value = place.geometry.location.lat();
+		form['lng'].value = place.geometry.location.lng(); 
+		console.log(form['lat'].value); 
+		console.log(form['lng'].value); 
+       }
+
+      // Bias the autocomplete object to the user's geographical location,
+      // as supplied by the browser's 'navigator.geolocation' object.
+      function geolocate() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var geolocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            var circle = new google.maps.Circle({
+              center: geolocation,
+              radius: position.coords.accuracy
+            });
+            autocomplete.setBounds(circle.getBounds());
+          });
+        }
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpUAQ_vp-UHzUYyTCgsF04IUTjulyRLS0&libraries=places&callback=initAutocomplete"
+        async defer></script>
+
+
 </body>
 </html>

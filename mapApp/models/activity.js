@@ -13,6 +13,13 @@ const activitySchema = new mongoose.Schema({
 		type: String,
 		required: [true, "We need to know who the organizer is."]
 	},
+	contact: {
+		type: Number
+	}, 
+	email: {
+		type: String, 
+		required: true, 
+	},
 	time: {
 		type: [Date, Date], //how to enforce formats? Start-End
 		required: [false, "When is the activity held?"]
@@ -23,6 +30,9 @@ const activitySchema = new mongoose.Schema({
 	},
 	people: {
 		type: [Number, Number, Number] //Going, Max, Target
+	}, 
+	deleted: {
+		type: Boolean
 	}
 });
 
