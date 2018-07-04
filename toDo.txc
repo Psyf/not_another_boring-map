@@ -1,0 +1,9 @@
+mapApp: 
+1. Create an activity_created.html page
+2. Make the delete_*.html pages presentable
+3. Events Search bar in home page doesn't do anything
+4. Make the edit_activity page
+
+chatApp: 
+1. Implement Cookies
+2. Polish the UI (And bring coherence to the site) 
