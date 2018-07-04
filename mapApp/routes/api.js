@@ -40,11 +40,6 @@ router.get("/activity/new", function(req, res) {
 router.post("/activity/new", function(req, res) {
 	var formData = JSON.parse(JSON.stringify(req.body)); 
 	
-	//randomly generated password
-	let password = Math.random()
-		.toString(36)
-		.substring(10);
-	
 	var entry = {
 		activityName: formData.activityName, 
 		category: formData.category, 
@@ -54,12 +49,12 @@ router.post("/activity/new", function(req, res) {
 		time: [formData.startTime, formData.endTime], 
 		location: [formData.lat, formData.lng], 
 		description: formData.description, 
-		password: password, 
+		password: formData.password, 
 		deleted: false
 	}
 
 	Act.create(entry).then(function(act) {
-		res.status(200).send("You will need this password to edit/delete the activity later: " + password);
+		res.status(200).send("You will need this password to edit/delete the activity later: " + formData.password);
 	});
 	//res.redirect('http://localhost:4000'); 	//TO DO : redirect to activity page  
 }); 

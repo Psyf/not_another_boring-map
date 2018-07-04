@@ -119,6 +119,12 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
+								<label class="control-label">Password: </label>
+        						<input type="text" class="form-control" id="password" name="password" required>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
 							<fieldset>
 								<label class="control-label">Event Privacy: </label>
         						<input type="radio" id="public" name="category" value="public" checked/>
@@ -128,11 +134,12 @@
 						    </fieldset>
 						</div>
 					</div>
+				</div>
+				<div class="row">
 					<div class="col-md-6">
 						<input type="submit" class="btn btn-primary" value="Create">
 					</div>
 				</div>
-			</div>
 		</div>
 	</form>
 
@@ -184,6 +191,15 @@
           });
         }
       }
+    </script>
+    <script>
+    	function randomPassGen() {
+    		let password = Math.random()
+				.toString(36)
+				.substring(10);
+			return password; 
+    	}
+    	form['password'].value = randomPassGen(); 
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpUAQ_vp-UHzUYyTCgsF04IUTjulyRLS0&libraries=places&callback=initAutocomplete"
         async defer></script>
