@@ -190,8 +190,15 @@ nav ul li:hover {
 .sidenav {
 	position: absolute;
 	top: 40%;
-	right: 80px;
+	left: -80px;
 	font-family: 'Tajawal', sans-serif;
+	z-index: 999;
+}
+
+.searchEvents {
+	position: absolute;
+	right: 10px;
+	top: 200px;
 	z-index: 999;
 }
 
@@ -207,7 +214,7 @@ nav ul li:hover {
 }
 
 #mySidenav a:hover {
-	right: -80px;
+	left: 80px;
 }
 
 #about {
@@ -244,12 +251,11 @@ input::-webkit-search-cancel-button {
 	display: none; 
 }
 
-
 input[type=search] {
 	background: #ededed url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
 	border: solid 1px #ccc;
 	padding: 9px 10px 9px 32px;
-	width: 55px;
+	width: 65px;
 	
 	-webkit-border-radius: 10em;
 	-moz-border-radius: 10em;
