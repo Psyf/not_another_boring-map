@@ -7,7 +7,6 @@ const path = require("path");
 //GETs
 router.get("/", function(req, res) { 
 	Act.find({category: "public", deleted: false}, function(err, acts) {
-		console.log(acts);
 		res.render(path.resolve(__dirname + "/../views/home.ejs"), {activities: acts}); 
 	}); 
 });
@@ -26,17 +25,15 @@ router.get("/activity", function(req, res) {
 	//use Acts.geoNear to filter by distance
 });
 
-router.get("/activity/:activityName/chat", function(req, res) {
-	console.log(req.params.activityName); 
-	res.redirect('http://localhost:5000/'+ req.params.activityName); 
+router.get("/activity/:id/chat", function(req, res) {
+	res.redirect('http://localhost:5000/'+ req.params.id); 
 });
 
+//to CREATE an activity
 router.get("/activity/new", function(req, res) {
 	res.sendFile(path.resolve(__dirname + "/../views/new_activity.html")); 
 });
 
-
-//POSTs
 router.post("/activity/new", function(req, res) {
 	var formData = JSON.parse(JSON.stringify(req.body)); 
 	
@@ -59,19 +56,59 @@ router.post("/activity/new", function(req, res) {
 	//res.redirect('http://localhost:4000'); 	//TO DO : redirect to activity page  
 }); 
 
-//ideally would use PUTs
+//to EDIT an activity
 router.get("/activity/edit/:id", function(req, res) {
-	Act.findByIdAndUpdate({_id: req.params.id}, req.body, { new: true }).then(
+	res.sendFile(path.resolve(__dirname + "/../views/password_req.html")); 
+});
+
+
+//BUGS from here--------------------------------------------------------------------------------------------
+router.get("/activity/edit/:id/:password", function(req, res) {
+	Act.findById(req.params.id)
+	.then(function(act) {
+		if (act.password == req.params.password) {
+			res.render(path.resolve(__dirname + "/../views/edit_activity.ejs"), {activity: act});
+		}
+		else {
+			res.sendFile(path.resolve(__dirname + "/../views/password_fail.html"));
+		}
+	}).catch(err => console.log(err)); 
+});
+
+router.post("/activity/edit/:id/:password", function(req, res) {
+	Act.findById({_id: req.params.id}).then(
 		function(act) {
-			res.send(act);
+			if (act.password == req.params.password) {
+				var formData = JSON.parse(JSON.stringify(req.body)); 
+				var entry = {
+					activityName: formData.activityName, 
+					category: formData.category, 
+					organizer: formData.orgName, 
+					contact: formData.contact, 
+					email: formData.email, 
+					time: [formData.startTime, formData.endTime], 
+					location: [formData.lat, formData.lng], 
+					description: formData.description, 
+					password: formData.password, 
+					deleted: false
+				}
+
+				Act.findByIdAndUpdate({_id: req.params.id}, entry, {new: true}, function(err, act) {
+					res.send("Successfully editted activity!"); 
+				});
+			} 
+			else {
+				res.sendFile(path.resolve(__dirname + "/../views/password_fail.html"));
+			}
 		}
 	);
 });
+//UNDER SCRUTINY TILL HERE---------------------------------------------------------------------------------------------------
 
-//ideally would use DELETEs
-//delete_req
+
+//to DELETE an activity
 router.get("/activity/delete/:id", function(req, res) {
-	res.sendFile(path.resolve(__dirname + "/../views/delete_req.html"));
+	res.sendFile(path.resolve(__dirname + "/../views/password_req.html"));
 });
 
 router.get("/activity/delete/:id/:password", function(req, res) {
@@ -89,8 +126,9 @@ router.get("/activity/delete/:id/:password", function(req, res) {
 		}
 		else 
 		{
-			res.sendFile(path.resolve(__dirname + "/../views/delete_fail.html"));
+			res.sendFile(path.resolve(__dirname + "/../views/password_fail.html"));
 		}
 	});
 }); 
+
 module.exports = router;
