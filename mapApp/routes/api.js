@@ -62,19 +62,17 @@ router.get("/activity/edit/:id", function(req, res) {
 });
 
 
-//BUGS from here
+//BUGS from here--------------------------------------------------------------------------------------------
 router.get("/activity/edit/:id/:password", function(req, res) {
-	Act.findById({_id: req.params.id}).then(
-		function(act) {
-			if (act.password == req.params.password) {
-				res.sendFile(path.resolve(__dirname + "/../views/edit_activity.html"));
-				//res.send(act); 
-			} 
-			else {
-				res.sendFile(path.resolve(__dirname + "/../views/password_fail.html"));
-			}
+	Act.findById(req.params.id)
+	.then(function(act) {
+		if (act.password == req.params.password) {
+			res.render(path.resolve(__dirname + "/../views/edit_activity.ejs"), {activity: act});
 		}
-	);
+		else {
+			res.sendFile(path.resolve(__dirname + "/../views/password_fail.html"));
+		}
+	}).catch(err => console.log(err)); 
 });
 
 router.post("/activity/edit/:id/:password", function(req, res) {
@@ -95,7 +93,9 @@ router.post("/activity/edit/:id/:password", function(req, res) {
 					deleted: false
 				}
 
-				Acts.findByIdAndUpdate({_id: req.params.id}, entry); 
+				Act.findByIdAndUpdate({_id: req.params.id}, entry, {new: true}, function(err, act) {
+					res.send("Successfully editted activity!"); 
+				});
 			} 
 			else {
 				res.sendFile(path.resolve(__dirname + "/../views/password_fail.html"));
@@ -103,7 +103,7 @@ router.post("/activity/edit/:id/:password", function(req, res) {
 		}
 	);
 });
-//UNDER SCRUTINY TILL HERE
+//UNDER SCRUTINY TILL HERE---------------------------------------------------------------------------------------------------
 
 
 //to DELETE an activity

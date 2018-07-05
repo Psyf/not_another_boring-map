@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="../public/homepage_styles.css">
+	<base href="http://localhost:4000/public/">
+	<link rel="stylesheet" type="text/css" href="homepage_styles.css"> 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<title></title>
@@ -195,22 +196,20 @@
     <script>
     	//gets the ejs data and prepopulates form
     	function populateForm() {
-    		/*
-    		//var activity = <%= JSON.stringify(activity) %>
-    		//form['category'] = activity.category;
-    		form['activityName'] = activity.activityName;
-    		form['orgname'] = activity.organizer;
-    		form['contact'] = activity.contact;
-    		form['email'] = activity.email;
-    		form['startTime'] = activity.time[0];
-    		form['endTime'] = activity.time[1];
-    		form['lat'] = activity.location[0];
-    		form['lng'] = activity.location[1];
-    		form['description'] = activity.description;
-    		form['password'] = activity.password;
-    		console.log("walao");
-    	*/
+    		var activity = <%- JSON.stringify(activity) %>
+    		form['category'].value = activity.category;
+    		form['activityName'].value = activity.activityName;
+    		form['orgName'].value = activity.organizer;
+    		form['contact'].value = activity.contact;
+    		form['email'].value = activity.email;
+    		form['startTime'].value = activity.time[0];
+    		form['endTime'].value = activity.time[1];
+    		form['lat'].value = activity.location[0];
+    		form['lng'].value = activity.location[1];
+    		form['description'].value = activity.description;
+    		form['password'].value = activity.password;
     	}
+    	populateForm();
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpUAQ_vp-UHzUYyTCgsF04IUTjulyRLS0&libraries=places&callback=initAutocomplete"
         async defer></script>
