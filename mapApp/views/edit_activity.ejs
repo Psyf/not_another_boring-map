@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<base href="http://localhost:4000/public/">
+	<link rel="stylesheet" type="text/css" href="homepage_styles.css"> 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<title></title>
+</head>
+<body>
+
+	<header>
+		<h1 class="logo">
+			<a href="../" style="text-decoration: none; color: black;">
+				<span style="font-family: 'Rancho', cursive;">
+					ShoutOut 
+				</span>
+				<span style="font-family: 'Eater', cursive;">
+					&nbsp;SG!
+				</span>
+				<span style="font-family: 'Dancing Script', cursive;font-size: 1rem; position: relative; bottom: 2em"><br/>
+					Get invited. Stay connected.
+				</span>
+			</a>
+		</h1>
+
+		<input type="checkbox" id="nav-toggle" class="nav-toggle">
+
+		<nav>
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="/activity/new">Add Activity</a></li>
+				<li><a href="#">Trending</a></li>
+				<li><a href="#">Guide</a></li>
+			</ul>
+		</nav>
+
+		<label for="nav-toggle" class="nav-toggle-label">
+			<span></span>
+		</label>
+	</header>
+
+	<form class="container" method="post" id="form">
+		<div class="panel panel-primary">
+			<div class="panel-heading">Please fill the following fields to add your activity</div>
+			<div class="panel-body">
+				
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Name of activity</label>
+							<input type="text" class="form-control" name="activityName" id="activityName" required="true">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Name of organiser</label>
+							<input type="text" class="form-control" name="orgName" id="orgName" required="true">
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Email address</label>
+							<input type="text" class="form-control" name="email" id="email" required="true">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Contact number</label>
+							<input type="text" class="form-control" name="contact" id="contact">
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class='col-md-6'>
+						<div class="form-group">
+							<label class="control-label">Start Time</label>
+							<div class='input-group date' id='datetimepicker1'>
+								<input type='text' class="form-control" name="startTime" id="startTime">
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class='col-md-6'>
+						<div class="form-group">
+							<label class="control-label">End Time</label>
+							<div class='input-group date' id='datetimepicker2'>
+								<input type='text' class="form-control" name="endTime" id="endTime">
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Activity address</label>
+							<input type="text" class="form-control" name="address" id="address">
+							//novalidate is a bug
+							<input type="number" step=any class="form-control" name="lat" id="lat" style="display:none" novalidate>
+							<input type="number" step=any class="form-control" name="lng" id="lng" style="display:none" novalidate>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Activity description</label>
+							<input type="text" class="form-control" name="description" id="description">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+								<label class="control-label">Password: </label>
+        						<input type="text" class="form-control" id="password" name="password" required>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<fieldset>
+								<label class="control-label">Event Privacy: </label>
+        						<input type="radio" id="public" name="category" value="public" checked/>
+								<label class="public">Public</label>
+        						<input type="radio" id="private" name="category" value="private"/>
+        						<label class="private">Private</label>
+						    </fieldset>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<input type="submit" class="btn btn-primary" value="Update">
+					</div>
+				</div>
+		</div>
+	</form>
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+	<script>
+		$(function () {
+			$('#datetimepicker1').datetimepicker();
+			$('#datetimepicker2').datetimepicker();
+		});
+	</script>
+	
+	<script>
+      var placeSearch, autocomplete;
+
+      function initAutocomplete() {
+        autocomplete = new google.maps.places.Autocomplete((document.getElementById('address')),
+            {types: ['geocode']});
+        // When the user selects an address from the dropdown, populate latitude, longitude
+        autocomplete.addListener('place_changed', fillInLatLng);
+      }
+
+      function fillInLatLng() {
+        var place = autocomplete.getPlace();
+		var form = document.getElementById('form');
+		form['lat'].value = place.geometry.location.lat();
+		form['lng'].value = place.geometry.location.lng(); 
+		console.log(form['lat'].value); 
+		console.log(form['lng'].value); 
+       }
+
+      // Bias the autocomplete object to the user's geographical location,
+      // as supplied by the browser's 'navigator.geolocation' object.
+      function geolocate() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var geolocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            var circle = new google.maps.Circle({
+              center: geolocation,
+              radius: position.coords.accuracy
+            });
+            autocomplete.setBounds(circle.getBounds());
+          });
+        }
+      }
+    </script>
+    <script>
+    	//gets the ejs data and prepopulates form
+    	function populateForm() {
+    		var activity = <%- JSON.stringify(activity) %>
+    		form['category'].value = activity.category;
+    		form['activityName'].value = activity.activityName;
+    		form['orgName'].value = activity.organizer;
+    		form['contact'].value = activity.contact;
+    		form['email'].value = activity.email;
+    		form['startTime'].value = activity.time[0];
+    		form['endTime'].value = activity.time[1];
+    		form['lat'].value = activity.location[0];
+    		form['lng'].value = activity.location[1];
+    		form['description'].value = activity.description;
+    		form['password'].value = activity.password;
+    	}
+    	populateForm();
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpUAQ_vp-UHzUYyTCgsF04IUTjulyRLS0&libraries=places&callback=initAutocomplete"
+        async defer></script>
+
+
+</body>
+</html>

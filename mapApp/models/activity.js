@@ -31,6 +31,13 @@ const activitySchema = new mongoose.Schema({
 	people: {
 		type: [Number, Number, Number] //Going, Max, Target
 	}, 
+	description: {
+		type: String
+	},
+	password: {
+		type: String, 
+		required: true
+	},
 	deleted: {
 		type: Boolean
 	}
