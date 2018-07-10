@@ -125,7 +125,6 @@ router.post("/activity/edit/:id/:password", function(req, res) {
 		});
 	});
 });
-
 //-----------------------------------------------------------Edit code ends here----------------------------
 
 //to DELETE an activity-----------------------------------------------------------------------------------
@@ -135,26 +134,28 @@ router.get("/activity/delete/:id", function(req, res) {
 
 router.get("/activity/delete/:id/:password", function(req, res) {
 	Act.findById({ _id: req.params.id }).then(function(act) {
-		if (act.password == req.params.password) {
-			Act.findByIdAndUpdate(req.params.id, { deleted: true }, function(
-				err,
-				act
-			) {
-				if (!err) {
-					res.sendFile(
-						path.resolve(
-							__dirname + "/../views/delete_success.html"
-						)
-					);
-				} else {
-					res.send(err);
-				}
-			});
-		} else {
-			res.sendFile(
-				path.resolve(__dirname + "/../views/password_fail.html")
-			);
-		}
+		bcrypt.compare(req.params.password, act.password, function(match) {	
+			if (match === true) {
+				Act.findByIdAndUpdate(req.params.id, { deleted: true }, function(
+					err,
+					act
+				) {
+					if (!err) {
+						res.sendFile(
+							path.resolve(
+								__dirname + "/../views/delete_success.html"
+							)
+						);
+					} else {
+						res.send(err);
+					}
+				});
+			} else {
+				res.sendFile(
+					path.resolve(__dirname + "/../views/password_fail.html")
+				);
+			}
+		});
 	});
 });
 //-------------------------------------------delete code ends here---------------------------------------
