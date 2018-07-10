@@ -4,7 +4,6 @@ const Act = require("../models/activity");
 const ejs = require("ejs");
 const path = require("path"); 
 
-//GETs
 router.get("/", function(req, res) { 
 	Act.find({category: "public", deleted: false}, function(err, acts) {
 		res.render(path.resolve(__dirname + "/../views/home.ejs"), {activities: acts}); 
@@ -15,21 +14,13 @@ router.get("/activity", function(req, res) {
 	Act.find({}, function(err, acts) {
 		res.status(200).send(acts);
 	});
-	//use Acts.geoNear to filter by distance
-});
-
-router.get("/activity", function(req, res) {
-	Act.find({}).then(function(acts) {
-		res.status(200).send(acts);
-	});
-	//use Acts.geoNear to filter by distance
 });
 
 router.get("/activity/:id/chat", function(req, res) {
 	res.redirect('http://localhost:5000/'+ req.params.id); 
 });
 
-//to CREATE an activity
+//to CREATE an activity-------------------------------------------------------------------------
 router.get("/activity/new", function(req, res) {
 	res.sendFile(path.resolve(__dirname + "/../views/new_activity.html")); 
 });
@@ -55,14 +46,13 @@ router.post("/activity/new", function(req, res) {
 	});
 	//res.redirect('http://localhost:4000'); 	//TO DO : redirect to activity page  
 }); 
+//-------------------------------------------------CREATE code enbds here------------------------------------
 
-//to EDIT an activity
+//to EDIT an activity---------------------------------------------------------------------------------------
 router.get("/activity/edit/:id", function(req, res) {
 	res.sendFile(path.resolve(__dirname + "/../views/password_req.html")); 
 });
 
-
-//BUGS from here--------------------------------------------------------------------------------------------
 router.get("/activity/edit/:id/:password", function(req, res) {
 	Act.findById(req.params.id)
 	.then(function(act) {
@@ -103,10 +93,9 @@ router.post("/activity/edit/:id/:password", function(req, res) {
 		}
 	);
 });
-//UNDER SCRUTINY TILL HERE---------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------Edit code ends here----------------------------
 
-
-//to DELETE an activity
+//to DELETE an activity-----------------------------------------------------------------------------------
 router.get("/activity/delete/:id", function(req, res) {
 	res.sendFile(path.resolve(__dirname + "/../views/password_req.html"));
 });
@@ -130,5 +119,16 @@ router.get("/activity/delete/:id/:password", function(req, res) {
 		}
 	});
 }); 
+//-------------------------------------------delete code ends here---------------------------------------
+
+//To SEARCH for an activity------------------------------------------------------------------------------
+router.post("/activity/search", function(req, res){
+	var queryString = JSON.parse(JSON.stringify(req.body.query));
+	Act.find({$text: {$search: queryString}})
+       .exec(function(err, docs) {
+       		res.send(docs);  
+       });
+});
+//-------------------------------------------------------------------SEARCH code ends here---------------
 
 module.exports = router;

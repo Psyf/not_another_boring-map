@@ -43,11 +43,19 @@
 
 	</header>
 	<div class="searchEvents">
-		<form>
-			<input type="search" placeholder="Events...">
-			<input type="search" id="pac-input" class="controls" type="text" placeholder="Places..">
+		<form action="/activity/search" method="post">
+			<div>
+				<input type="search" name="query" id="event-search" placeholder="Events...">
+			</div>
+			<div>
+				<input type="submit" name="event-search" class="btn btn-primary" value="Search" hidden>
+			</div>
 		</form> 
 	</div>
+	<div class="searchPlaces">
+		<input type="search" id="pac-input" class="controls" type="text" placeholder="Places..">
+	</div>
+
 	<div id="mySidenav" class="sidenav">
 		<a href="/activity/new" id="new_activity">Add Activity</a>
 		<a href="#" id="about">About</a>
