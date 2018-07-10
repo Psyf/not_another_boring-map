@@ -63,19 +63,6 @@
 		<a href="#" id="contact">Contact</a>
 	</div>
 	<div id="map" class="map"></div>
-	
-	<!-- The following are tested. These were correctly displayed, so this serves as a sanity-check...
-	<p>This is a <span style="font-family: 'Rancho', cursive; color: red">test of what I can do using HTML and CSS.<br></span><span style="font-family: 'Eater',cursive;">Do you see?</span>
-	</p>
-	<div>
-		<br>
-		<br>
-		<br>
-		<span style="background: yellow;">Hello!</span>
-		<br>
-		<br>
-		<br>
-	</div> -->
 
 	<script>
 		function initMap() {
@@ -86,6 +73,16 @@
 			}
 
 			var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+			if (navigator.geolocation) {
+          		navigator.geolocation.getCurrentPosition(function(position) {
+	            	var pos = {
+	              		lat: position.coords.latitude,
+	              		lng: position.coords.longitude
+	            	};
+	            map.setCenter(pos);
+	        	});
+	        }
 
 			//adding markers on the map
 			var activities = <%- JSON.stringify(activities) %>
