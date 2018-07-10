@@ -10,6 +10,7 @@ router.get("/", function(req, res) {
 	}); 
 });
 
+//TO DO: BLOCK THIS OFF
 router.get("/activity", function(req, res) {
 	Act.find({}, function(err, acts) {
 		res.status(200).send(acts);
