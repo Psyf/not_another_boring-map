@@ -181,14 +181,17 @@
 				});
 
 			var content = '<div id="content">'+
-            '<div id="siteNotice">'+
+          	'<div id="siteNotice">'+
             '</div>'+
             '<h1 id="firstHeading" class="firstHeading" style="">'+activity.activityName+'</h1>'+
             '<div id="bodyContent"  style="font-style: italic;">'+
-            '<p>Timing:&nbsp<span style="font-style: normal;">' + '<!--INSERT TIME -->' + '</span></p>'
-            +'<p>Activity page:&nbsp<span style="font-style: normal;">' + '<!--LINK TO ACTIVITY PAGE-->' + '</span></p>';
+            '<p>Timing:&nbsp<span style="font-style: normal;">' + activity.time[0] + ' - ' + activity.time[0] + '</span></p>'+
+         	'<div id="links"><a href="/activity/chat/' + activity._id + '" style="margin-right:1em">CHAT</a>' +
+         	'<div id="links"><a href="/activity/delete/' + activity._id + '" style="margin-right:1em">DELETE</a>' +
+         	'<a href="/activity/edit/' + activity._id + '" style="">EDIT</a>' + '</div>'+'</span></p>';
             '</div>'+
             '</div>';
+            //add other details soon
 
 			var infowindow = new google.maps.InfoWindow();
 			google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
