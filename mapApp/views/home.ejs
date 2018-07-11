@@ -43,11 +43,19 @@
 
 	</header>
 	<div class="searchEvents">
-		<form>
-			<input type="search" placeholder="Events...">
-			<input type="search" id="pac-input" class="controls" type="text" placeholder="Places..">
+		<form action="/activity/search" method="post">
+			<div>
+				<input type="search" name="query" id="event-search" placeholder="Events...">
+			</div>
+			<div>
+				<input type="submit" name="event-search" class="btn btn-primary" value="Search" hidden>
+			</div>
 		</form> 
 	</div>
+	<div class="searchPlaces">
+		<input type="search" id="pac-input" class="controls" type="text" placeholder="Places..">
+	</div>
+
 	<div id="mySidenav" class="sidenav">
 		<a href="/activity/new" id="new_activity">Add Activity</a>
 		<a href="#" id="about">About</a>
@@ -55,19 +63,6 @@
 		<a href="#" id="contact">Contact</a>
 	</div>
 	<div id="map" class="map"></div>
-	
-	<!-- The following are tested. These were correctly displayed, so this serves as a sanity-check...
-	<p>This is a <span style="font-family: 'Rancho', cursive; color: red">test of what I can do using HTML and CSS.<br></span><span style="font-family: 'Eater',cursive;">Do you see?</span>
-	</p>
-	<div>
-		<br>
-		<br>
-		<br>
-		<span style="background: yellow;">Hello!</span>
-		<br>
-		<br>
-		<br>
-	</div> -->
 
 	<script>
 		function initMap() {
@@ -80,6 +75,7 @@
 			var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 		//adding markers on the map
 		var activities = <%- JSON.stringify(activities) %>
 		var marker;
@@ -91,6 +87,18 @@
 				title: activity.activityName,
 			});
 =======
+=======
+			if (navigator.geolocation) {
+          		navigator.geolocation.getCurrentPosition(function(position) {
+	            	var pos = {
+	              		lat: position.coords.latitude,
+	              		lng: position.coords.longitude
+	            	};
+	            map.setCenter(pos);
+	        	});
+	        }
+
+>>>>>>> 6972e7051cfdbf384c5328d1f841ce299251f46e
 			//adding markers on the map
 			var activities = <%- JSON.stringify(activities) %>
 			var marker;
@@ -189,10 +197,11 @@
 >>>>>>> 05054515173cc5789f38ee7ccb90e2a1530df61f
 
 			var content = '<div id="content">'+
-            '<div id="siteNotice">'+
+          	'<div id="siteNotice">'+
             '</div>'+
             '<h1 id="firstHeading" class="firstHeading" style="">'+activity.activityName+'</h1>'+
             '<div id="bodyContent"  style="font-style: italic;">'+
+<<<<<<< HEAD
             '<p>Organiser:&nbsp<span style="font-style: normal;">' + activity.organiser + '</span></p>' +
             '<p>Category:&nbsp<span style="font-style: normal;">' + activity.category + '</span></p>' +
             '<p>Timing:&nbsp<span style="font-style: normal;">' + activity.time + '</span></p>' +
@@ -201,8 +210,15 @@
             '<p>Chatlink:&nbsp<span style="font-style:normal;"><a href="#">Chat here</a></span></p>' + 
             '<p>Update:&nbsp<span style="font-style: normal;"><a href="#">Update here</a></span></p>' +
             '<p>Delete:&nbsp<span style="font-style:normal;"><a href="#">Delete here</a></span></p>' +
+=======
+            '<p>Timing:&nbsp<span style="font-style: normal;">' + activity.time[0] + ' - ' + activity.time[0] + '</span></p>'+
+         	'<div id="links"><a href="/activity/chat/' + activity._id + '" style="margin-right:1em">CHAT</a>' +
+         	'<div id="links"><a href="/activity/delete/' + activity._id + '" style="margin-right:1em">DELETE</a>' +
+         	'<a href="/activity/edit/' + activity._id + '" style="">EDIT</a>' + '</div>'+'</span></p>';
+>>>>>>> 6972e7051cfdbf384c5328d1f841ce299251f46e
             '</div>'+
             '</div>';
+            //add other details soon
 
 			var infowindow = new google.maps.InfoWindow();
 			google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 

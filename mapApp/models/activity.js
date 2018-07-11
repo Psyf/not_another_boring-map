@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const activitySchema = new mongoose.Schema({
 	activityName: {
 		type: String,
-		required: [true, "activityName field is required"]
+		required: [true, "activityName field is required"],
+		es_indexed: true
 	},
 	category: {
 		type: String,
@@ -11,14 +12,15 @@ const activitySchema = new mongoose.Schema({
 	},
 	organizer: {
 		type: String,
-		required: [true, "We need to know who the organizer is."]
+		required: [true, "We need to know who the organizer is."],
+		es_indexed: true
 	},
 	contact: {
 		type: Number
-	}, 
+	},
 	email: {
-		type: String, 
-		required: true, 
+		type: String,
+		required: true
 	},
 	time: {
 		type: [Date, Date], //how to enforce formats? Start-End
@@ -30,12 +32,13 @@ const activitySchema = new mongoose.Schema({
 	},
 	people: {
 		type: [Number, Number, Number] //Going, Max, Target
-	}, 
+	},
 	description: {
-		type: String
+		type: String,
+		es_indexed: true
 	},
 	password: {
-		type: String, 
+		type: String,
 		required: true
 	},
 	deleted: {
@@ -43,6 +46,7 @@ const activitySchema = new mongoose.Schema({
 	}
 });
 
+activitySchema.index({'activityName':'text', 'organizer':'text', 'description':'text'});
 const activity = mongoose.model("activity", activitySchema); //I dont understand the difference between model and schema
 
 module.exports = activity;
