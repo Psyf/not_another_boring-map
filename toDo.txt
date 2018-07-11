@@ -2,7 +2,6 @@ mapApp:
 1. Create an activity_created.html page
 2. Make the delete_*.html pages presentable
 3. Implement fuzzy matching in search (look at ElasticSearch for most promising results)  
-4. IMPORTANT: password is exposed upon inspection in home.ejs -> use bcrypt
 
 chatApp: 
 1. Implement Cookies
