@@ -134,12 +134,9 @@ router.get("/activity/delete/:id", function(req, res) {
 
 router.get("/activity/delete/:id/:password", function(req, res) {
 	Act.findById({ _id: req.params.id }).then(function(act) {
-		bcrypt.compare(req.params.password, act.password, function(match) {	
+		bcrypt.compare(req.params.password, act.password).then(function(match) {	
 			if (match === true) {
-				Act.findByIdAndUpdate(req.params.id, { deleted: true }, function(
-					err,
-					act
-				) {
+				Act.findByIdAndUpdate(req.params.id, { deleted: true }, function(err,act) {
 					if (!err) {
 						res.sendFile(
 							path.resolve(
