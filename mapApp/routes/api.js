@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Act = require("../models/activity");
+const User = require("../models/user"); 
 const ejs = require("ejs");
 const path = require("path");
 const bcrypt = require("bcryptjs");
@@ -134,19 +135,23 @@ router.get("/activity/delete/:id", function(req, res) {
 
 router.get("/activity/delete/:id/:password", function(req, res) {
 	Act.findById({ _id: req.params.id }).then(function(act) {
-		bcrypt.compare(req.params.password, act.password).then(function(match) {	
+		bcrypt.compare(req.params.password, act.password).then(function(match) {
 			if (match === true) {
-				Act.findByIdAndUpdate(req.params.id, { deleted: true }, function(err,act) {
-					if (!err) {
-						res.sendFile(
-							path.resolve(
-								__dirname + "/../views/delete_success.html"
-							)
-						);
-					} else {
-						res.send(err);
+				Act.findByIdAndUpdate(
+					req.params.id,
+					{ deleted: true },
+					function(err, act) {
+						if (!err) {
+							res.sendFile(
+								path.resolve(
+									__dirname + "/../views/delete_success.html"
+								)
+							);
+						} else {
+							res.send(err);
+						}
 					}
-				});
+				);
 			} else {
 				res.sendFile(
 					path.resolve(__dirname + "/../views/password_fail.html")
@@ -165,5 +170,31 @@ router.post("/activity/search", function(req, res) {
 	});
 });
 //-------------------------------------------------------------------SEARCH code ends here---------------
+
+//SIGN UP Code starts here-------------------------------------------------------------------------------
+router.post("/user/signup", function(req, res) {
+	if (
+		req.body.email &&
+		req.body.username &&
+		req.body.password &&
+		req.body.passwordConf
+	) {
+		var userData = {
+			email: req.body.email,
+			username: req.body.username,
+			password: req.body.password,
+			passwordConf: req.body.passwordConf
+		};
+		//use schema.create to insert data into the db
+		User.create(userData, function(err, user) {
+			if (err) {
+				return next(err);
+			} else {
+				return res.redirect("/profile");
+			}
+		});
+	}
+});
+//-------------------------------------------------------------------SIGN UP Code ends here--------------
 
 module.exports = router;
