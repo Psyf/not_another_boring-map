@@ -70,7 +70,6 @@ router.get(
 	passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-// the callback after google has authenticated the user
 router.get(
 	"/auth/google/callback",
 	passport.authenticate("google", {
@@ -82,6 +81,63 @@ router.get(
 router.get("/profile", isLoggedIn, function(req, res) {
 	res.render("profile.ejs", {
 		user: req.user // get the user out of session and pass to template
+	});
+});
+
+router.get("/connect/local", function(req, res) {
+	res.render("connect-local.ejs", { message: req.flash("loginMessage") });
+});
+
+router.post(
+	"/connect/local",
+	passport.authenticate("local-signup", {
+		successRedirect: "/profile", // redirect to the secure profile section
+		failureRedirect: "/connect/local", // redirect back to the signup page if there is an error
+		failureFlash: true // allow flash messages
+	})
+);
+
+router.get(
+	"/connect/facebook",
+	passport.authorize("facebook", {
+		scope: ["public_profile", "email"]
+	})
+);
+
+router.get(
+	"/connect/facebook/callback",
+	passport.authorize("facebook", {
+		successRedirect: "/profile",
+		failureRedirect: "/"
+	})
+);
+
+router.get(
+	"/connect/google",
+	passport.authorize("google", { scope: ["profile", "email"] })
+);
+
+router.get(
+	"/connect/google/callback",
+	passport.authorize("google", {
+		successRedirect: "/profile",
+		failureRedirect: "/"
+	})
+);
+
+router.get("/unlink/facebook", function(req, res) {
+	var user = req.user;
+	user.facebook.token = undefined;
+	user.save(function(err) {
+		res.redirect("/profile");
+	});
+});
+
+router.get("/unlink/google", function(req, res) {
+	var user = req.user;
+	user.google.token = undefined;
+	user.save(function(err) {
+		res.redirect("/profile");
 	});
 });
 

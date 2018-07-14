@@ -24,18 +24,17 @@ app.set("view engine", "ejs");
 //middleware optimization for static files
 app.use("/public", express.static(__dirname + '/public'))
 
-
 //passprt requirements
-app.use(session({ secret: 'ilovescotchscotchyscotchscotch', resave: false, saveUninitialized: false })); // session secret
+app.use(bodyParser.json({extended: true}));
+app.use(bodyParser.urlencoded({extended: true})); 
 app.use(cookieParser()); // read cookies (needed for auth)
+app.use(session({ secret: 'ilovescotchscotchyscotchscotch', resave: true, saveUninitialized: true })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 //middleware set up
 app.use(morgan('dev')); // log every request to the console
-app.use(bodyParser.json({extended: true}));
-app.use(bodyParser.urlencoded({extended: true})); 
 
 //setting up routes
 app.use("/", routes);
