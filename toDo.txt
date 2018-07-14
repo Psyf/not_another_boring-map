@@ -2,6 +2,9 @@ mapApp:
 1. Create an activity_created.html page
 2. Make the delete_*.html pages presentable
 3. Implement fuzzy matching in search (look at ElasticSearch for most promising results)  
+4. Make sure new random (BIG) salts generated for each
+5. Make sure to refactorize: 
+	- route passord hash/check should be taken to model 
 
 chatApp: 
 1. Implement Cookies

@@ -5,6 +5,7 @@ const User = require("../models/user");
 const ejs = require("ejs");
 const path = require("path");
 const bcrypt = require("bcryptjs");
+const passport = require("passport"); 
 
 router.get("/", function(req, res) {
 	Act.find({ category: "public", deleted: false }, function(err, acts) {
@@ -21,6 +22,46 @@ router.get("/activity", function(req, res) {
 	});
 });
 
+//User auth
+router.get('/login', function(req, res) {
+	res.render('login.ejs', { message: req.flash('loginMessage')}); 
+});
+
+router.post('/login', passport.authenticate('local-login', {
+	successRedirect: '/profile', 
+	failureRedirect: '/login', 
+	failureFlash: true
+})); 
+
+router.get('/signup', function(req, res) {
+    res.render('signup.ejs', { message: req.flash('signupMessage') });
+}); 
+
+router.post('/signup', passport.authenticate('local-signup', {
+    successRedirect : '/profile', // redirect to the secure profile section
+    failureRedirect : '/signup', // redirect back to the signup page if there is an error
+    failureFlash : true // allow flash messages
+}));
+
+
+router.get('/profile', isLoggedIn, function(req, res) {
+    res.render('profile.ejs', {
+        user : req.user // get the user out of session and pass to template
+    });
+});
+
+function isLoggedIn(req, res, next) {
+   	if (req.isAuthenticated())
+        return next();
+    res.redirect('/');
+}
+
+router.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
+
+//to get to the chat
 router.get("/activity/:id/chat", function(req, res) {
 	res.redirect("http://localhost:5000/" + req.params.id);
 });
