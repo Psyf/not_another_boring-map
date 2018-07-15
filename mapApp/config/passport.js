@@ -153,21 +153,52 @@ module.exports = function(passport) {
 
 								return done(null, user); // user found, return that user
 							} else {
-								var newUser = new User();
-								newUser.facebook.id = profile.id;
-								newUser.facebook.token = token;
-								newUser.facebook.name =
-									profile.name.givenName +
-									" " +
-									profile.name.familyname;
-								newUser.facebook.email =
-									profile.emails[0].value || null;
+								User.findOne()
+									.or([
+										{
+											"google.email":
+												profile.emails[0].value
+										},
+										{
+											"local.email":
+												profile.emails[0].value
+										}
+									])
+									.then(function(user) {
+										if (user) {
+											console.log("here");
+											user.facebook.id = profile.id;
+											user.facebook.token = token;
+											user.facebook.name =
+												profile.name.givenName +
+												" " +
+												profile.name.familyName;
+											user.facebook.email =
+												profile.emails[0].value || null;
+											user.save(function(err) {
+												if (err) throw err;
+												return done(null, user);
+											});
+										} else {
+											var newUser = new User();
+											newUser.facebook.id = profile.id;
+											newUser.facebook.token = token;
+											newUser.facebook.name =
+												profile.name.givenName +
+												" " +
+												profile.name.familyname;
+											newUser.facebook.email =
+												profile.emails[0].value || null;
 
-								newUser.save(function(err) {
-									if (err) throw err;
-
-									return done(null, newUser);
-								});
+											newUser.save(function(err) {
+												if (err) throw err;
+												return done(null, newUser);
+											});
+										}
+									})
+									.catch(function(err) {
+										return done(err);
+									});
 							}
 						});
 					} else {
@@ -227,21 +258,52 @@ module.exports = function(passport) {
 
 								return done(null, user); // user found, return that user
 							} else {
-								var newUser = new User();
-								newUser.google.id = profile.id;
-								newUser.google.token = token;
-								newUser.google.name =
-									profile.name.givenName +
-									" " +
-									profile.name.familyname;
-								newUser.google.email =
-									profile.emails[0].value || null;
+								User.findOne()
+									.or([
+										{
+											"facebook.email":
+												profile.emails[0].value
+										},
+										{
+											"local.email":
+												profile.emails[0].value
+										}
+									])
+									.then(function(user) {
+										if (user) {
+											console.log("here");
+											user.google.id = profile.id;
+											user.google.token = token;
+											user.google.name =
+												profile.name.givenName +
+												" " +
+												profile.name.familyName;
+											user.google.email =
+												profile.emails[0].value || null;
+											user.save(function(err) {
+												if (err) throw err;
+												return done(null, user);
+											});
+										} else {
+											var newUser = new User();
+											newUser.google.id = profile.id;
+											newUser.google.token = token;
+											newUser.google.name =
+												profile.name.givenName +
+												" " +
+												profile.name.familyname;
+											newUser.google.email =
+												profile.emails[0].value || null;
 
-								newUser.save(function(err) {
-									if (err) throw err;
-
-									return done(null, newUser);
-								});
+											newUser.save(function(err) {
+												if (err) throw err;
+												return done(null, newUser);
+											});
+										}
+									})
+									.catch(function(err) {
+										if (err) return done(err);
+									});
 							}
 						});
 					} else {
